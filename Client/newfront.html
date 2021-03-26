@@ -1,0 +1,103 @@
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+        <title>Airline Website</title>     
+
+    </head>
+    <body>
+        <nav>
+            <a href="checkin.html">Chek-in</a> |
+            <a href = "checkFlightStatus.html">Check Flight Status</a>
+        </nav>
+        <fieldset>
+            <label for = "depart">Flying From</label>
+            <select name= "depart" id="depart">
+                <option value="HOU">Houston</option>
+                <option value="JFK">New York</option>
+                <option value="LAX">Los Angeles</option>
+                <option value="ORD">Chicago</option>
+                <option value="MIA">Miami</option>
+            </select><br><br>
+            <label for= "arrive">Flying to</label>
+            <select name= "arrive" id="arrive">
+                <option value="HOU">Houston</option>
+                <option value="JFK">New York</option>
+                <option value="LAX">Los Angeles</option>
+                <option value="ORD">Chicago</option>
+                <option value="MIA">Miami</option>
+            </select><br><br>
+            <label for="deaparting">Departing</label>
+            <input type="date" id="dep_date"/>
+            <label for="returning"> Returning</label>
+            <input type="date" id="dep_date"/><br><br>
+            <label for="p_num">Number of Passenger</label>
+            <select name= "p_num" id="p_num">
+                <option value=1>1</option>
+                <option value=2>2</option>
+                <option value=3>3</option>
+                <option value=4>4</option>
+                <option value=5>5</option>
+            </select><br><br>
+            <button  type="button" onclick="searchFlight()">Search Flight</button>
+        </fieldset>
+
+        <div>
+            <table>
+                <tbody id="allez-table">
+    
+                </tbody>
+            </table>
+        
+            <script>
+                async function selectAllezFlight(fid, pr, n){
+                    console.log(fid);
+                    const t = n * pr;
+                    console.log(pr)
+                    console.log(n)
+                    console.log(t)
+                    const prJson = {"price" : t}
+                    const response = await fetch(`http://localhost:5000/flights/allez/${fid}`, 
+                    {method: "POST",
+                    headers: {"content-type" : "application/json"},
+                    body : JSON.stringify(prJson)}).then(a => a.json()); 
+
+                }
+            </script>
+
+        </div>
+
+        <P>Returning Flights</P>
+
+        <div>
+            <table>
+                <tbody id="retour-table">
+    
+                </tbody>
+            </table> 
+            <script>
+                async function selectRetourFlight(fid, pr, n){
+                    console.log(fid);
+                    const t = n * pr;
+                    console.log(t);
+                    const prJson = {"price" : t}
+                    const response = await fetch(`http://localhost:5000/flights/retour/${fid}`, {method: "POST",  headers: {"content-type" : "application/json"}, body : JSON.stringify(prJson)}).then(a => a.json()); 
+
+                }
+            </script>
+        </div>
+
+
+        <div>
+            <p id = "submitflights">
+
+            </p>
+            
+        </div>
+    </body>
+    <script src="main.js"></script>
+    <script src="http://code.jquery.com/jquery-3.4.1.min.js"></script>
+    <script src="http://code.jquery.com/ui/1.12.1/jquery-ui.min.js"> </script> 
+
+</html>

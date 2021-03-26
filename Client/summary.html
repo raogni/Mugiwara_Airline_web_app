@@ -1,0 +1,62 @@
+<head>
+    <style>
+    table {
+      border-collapse: collapse;
+      width: 100%;
+    }
+    
+    th, td {
+      padding: 8px;
+      text-align: left;
+      border-bottom: 1px solid #ddd;
+    }
+    </style>
+</head>
+
+<body>
+    <h2>Summary</h2>
+<p>Here is a summary of your flights</p>
+
+
+<button type="button" onclick="showSUmmary()">show flight summary</button><br><br>
+<table id = "summary">
+
+
+</table>
+
+<button type="button" onclick="showTotal()">Show Total price</button>
+<div id = "total">
+
+</div>
+<button type="button" onclick="location.href='./newfront.html'">Go back to Homepage</button>
+<script>
+    async function showSUmmary(){
+        const summary = document.getElementById("summary");
+        const response = await fetch(`http://localhost:5000/summary`);
+
+        const flights = await response.json()
+
+        htmltext ="";
+
+        flights.map( flight => {
+            htmltext +=`<tr><th>Flight Id</th><th>Departing city</th><th>Departing Airport</th> <th>Scheduled Departure</th><th>Arrival City</th> <th>Arrival airport</th> <th>Scheduled Arrival</th></tr>
+            <tr><td>${flight.flight_id}</td> <td>${flight.departure_city}</td> <td>${flight.departure_airport}</td> <td>${flight.scheduled_departure}</td><td>${flight.arrival_city}</td> <td>${flight.arrival_airport}</td> <td>${flight.scheduled_arrival}</td></tr>`
+        })
+
+        summary.innerHTML = htmltext;
+    }
+
+</script>
+<script>
+    async function showTotal(){
+        const res = await fetch(`http://localhost:5000/total`);
+        const amount = await res.json();
+        console.log(amount);
+        const total = amount.total;
+
+        document.getElementById("total").innerHTML = `<h5> ToTal = $ ${total}</h5>`;
+    }
+</script>
+
+</body>
+
